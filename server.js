@@ -18,8 +18,12 @@ app.use(
 
 //add other middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 // importing our Campaigns router
@@ -110,11 +114,17 @@ require("dotenv").config();
 //   }
 // });
 
+// app.post("/create", (req, res) => {
+//   console.log("REQ: ", req);
+
+//   res.status(200).send({ Data: req.files });
+// });
+
 // routes
 app.use("/api/v1/campaigns", campaigns);
 
 //start app
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const start = () => {
   try {

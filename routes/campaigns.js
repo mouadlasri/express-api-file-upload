@@ -12,6 +12,10 @@ router.use((req, res, next) => {
 
 router.post("/create", campaigns.createCampaign);
 
+// router.post("/create", (req, res) => {
+//   console.log("\n\nREQUEST SENT:", req.body);
+// });
+
 // router.use((req, res, next) => {
 //   console.log("Request made to /CAMPAIGNS ROUTE");
 //   next();

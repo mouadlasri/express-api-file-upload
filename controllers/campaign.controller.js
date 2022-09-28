@@ -1,5 +1,6 @@
 // Import DB connection
 const sqlDB = require("../db/connect");
+const _ = require("lodash");
 
 // Controller has the following CRUD functions
 // createCampaign
@@ -9,11 +10,13 @@ const sqlDB = require("../db/connect");
 // deleteCampaign
 
 // Import Campaign model
-
 const Campaign = require("../models/campaign.model.js");
 
 // Create and save a new Campaign
 exports.createCampaign = (req, res) => {
+  console.log("\nController Files : ", req.files);
+  // console.log("\nController image1 FileList : ", req);
+
   console.log("Create campaign route");
 
   // validate request
@@ -35,6 +38,26 @@ exports.createCampaign = (req, res) => {
     } else {
       // send back the data that was saved in the database
       res.send(data);
+
+      // if ciFile was uploaded, save file in server
+      if (req.files) {
+        let file = req.files.ciFile;
+
+        file.mv(`./uploads/${data.id}/cifile/` + file.name);
+      }
+
+      // if image1 were uploaded, save file(s) in server
+      if (req.files.image1) {
+        console.log("File Image: ", req.body.image1);
+
+        // Loop through the file array
+        _.forEach(_.keysIn(req.files.image1), (key) => {
+          let file = req.files.image1[key];
+
+          // move files to uploads folder of the campaign id
+          file.mv(`./uploads/${data.id}/image1/` + file.name);
+        });
+      }
     }
   });
 };
